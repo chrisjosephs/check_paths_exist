@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains check_paths_exist.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function check_paths_exist_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the check_paths_exist module.
+    case 'help.page.check_paths_exist':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Check Paths Exist') . '</p>';
+      return $output;
+
+    default:
+  }
+}

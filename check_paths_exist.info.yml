@@ -1,0 +1,5 @@
+name: 'check_paths_exist'
+type: module
+description: 'Check Paths Exist'
+core: 8.x
+package: 'Custom'

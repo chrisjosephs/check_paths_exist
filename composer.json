@@ -1,0 +1,13 @@
+{
+    "name": "check_paths_exist",
+    "type": "drupal-module",
+    "description": "Check Paths Exist",
+    "keywords": [
+    ],
+    "homepage": "https://www.drupal.org/project/check_paths_exist",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/check_paths_exist",
+        "source": "http://cgit.drupalcode.org/check_paths_exist",
+    },
+}
