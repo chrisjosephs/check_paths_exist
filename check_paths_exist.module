@@ -40,7 +40,7 @@ function check_paths_exist($paths)
       Drupal::messenger()->addMessage("Directory for " . $paths[$pt] . " already exists");
     }
   }
-  if(!$hasPath){
+  if(!empty($hasPath)){
     Drupal::messenger()->addError("No paths set.  Nothing to do.");
     return false;
   }
