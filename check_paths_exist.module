@@ -2,23 +2,47 @@
 
 /**
  * @file
- * Contains check_paths_exist.module.
+ * check_path_exist.module
  */
-
-use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
- * Implements hook_help().
+ * Creates directories if they do not exist
+ * @param $paths
+ * @return bool
  */
-function check_paths_exist_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    // Main module help for the check_paths_exist module.
-    case 'help.page.check_paths_exist':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Check Paths Exist') . '</p>';
-      return $output;
-
-    default:
+function check_paths_exist($paths)
+{
+  $path_types = ['logs_path', 'file_mopup_path'];
+  foreach ($path_types as $pt) {
+    if (!isset($paths[$pt])) {
+      Drupal::messenger()->addMessage("No path set for " . $pt);
+      continue;
+    }
+    $hasPath = true;
+    if (!file_exists($paths[$pt])) {
+      if(Drupal::service('file_system')->mkDir($paths[$pt], 0755, true)) {
+        Drupal::messenger()->addMessage("Created Directory for " . $paths[$pt] . " successfully");
+      }
+      else{
+        Drupal::messenger()->addError("Create Directory for " . $paths[$pt] . " failed");
+        // no assumption about what module this is being called from at this point so try and work it out else fall back on function name
+        try {
+          $mn = Drupal::service('module_handler')->getModule(basename(__FILE__, '.module'))->getName();
+        }
+        catch(\InvalidArgumentException $e){
+          $mn = "checkPathExists";
+        }
+        Drupal::logger($mn)->error("Create Directory for " . $paths[$pt] . " failed - see php file_system service exception");
+        return false;
+      }
+    }
+    else{
+      Drupal::messenger()->addMessage("Directory for " . $paths[$pt] . " already exists");
+    }
   }
+  if(!$hasPath){
+    Drupal::messenger()->addError("No paths set.  Nothing to do.");
+    return false;
+  }
+  return true;
 }
