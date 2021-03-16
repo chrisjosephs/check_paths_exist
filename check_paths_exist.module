@@ -30,7 +30,7 @@ function check_paths_exist($paths)
           $mn = Drupal::service('module_handler')->getModule(basename(__FILE__, '.module'))->getName();
         }
         catch(\InvalidArgumentException $e){
-          $mn = "checkPathExists";
+          $mn = "check_path_exists";
         }
         Drupal::logger($mn)->error("Create Directory for " . $paths[$pt] . " failed - see php file_system service exception");
         return false;
